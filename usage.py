@@ -28,7 +28,7 @@ warp_matrix, template_warp = usaf_measure.warp_coeffs_to_template(\
 horiz_res, vert_res = usaf_measure.measure_resolution(
                             input_b, warp_matrix, template,
                              min_measure_group = 4,
-                             max_measure_group = 5, plot=False)
+                             max_measure_group = 5, plot=True)
 
 um2px = 1 / ar([np.mean(horiz_res), np.mean(vert_res)])
 print ('horiz res = %.6f +/- %.6f [um/px]' % (1/np.mean(horiz_res), np.std(1/ar(horiz_res))))
