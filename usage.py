@@ -30,22 +30,20 @@ horiz_res, vert_res = usaf_measure.measure_resolution(
                              min_measure_group = 4,
                              max_measure_group = 5, plot=True)
 
-um2px = 1 / ar([np.mean(horiz_res), np.mean(vert_res)])
-print ('horiz res = %.6f +/- %.6f [um/px]' % (1/np.mean(horiz_res), np.std(1/ar(horiz_res))))
-print ('vert  res = %.6f +/- %.6f [um/px]' % (1/np.mean(vert_res),  np.std(1/ar(horiz_res))))
-print ("size = %.3f x %.3f [um]" % tuple(ar(input.shape) * um2px))
+px2um = 1 / ar([np.mean(horiz_res), np.mean(vert_res)])
 
+print ('horiz res = %.6f +/- %.6f [px/um]' % (1/np.mean(horiz_res), np.std(1/ar(horiz_res))))
+print ('vert  res = %.6f +/- %.6f [px/um]' % (1/np.mean(vert_res),  np.std(1/ar(horiz_res))))
+print ("size = %.3f x %.3f [um]" % tuple(ar(input.shape) * px2um))
 
-focal_size = 30
-a = (((ar(input.shape) * um2px))/100)
-deg_size = np.rad2deg(np.arctan( (a/2) / focal_size))
-
-print ("size = %.3f x %.3f [deg]" % tuple(deg_size))
+focal_size = 20
+px2deg = np.rad2deg( 2 * np.arctan( px2um/100/2/focal_size) )
+print ("size = %.3f x %.3f [deg]" % tuple(ar(input.shape) * px2deg))
 
 #%%
 
 fig, ax = plt.subplots()
-ax.imshow(input, extent=(0, input.shape[1] * um2px[1], 0, input.shape[0] * um2px[0]))
+ax.imshow(input, extent=(0, input.shape[1] * px2um[1], 0, input.shape[0] * px2um[0]))
 ax.set_xlabel('[um]')
 ax.set_ylabel('[um]')
 fig.tight_layout

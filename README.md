@@ -1,5 +1,5 @@
 # usaf1951
-USAF1951 analyze scripts and MTF computation 
+USAF1951 analyze scripts and MTF computation
 
 ## usage
 
@@ -33,32 +33,29 @@ warp_matrix, template_warp = usaf_measure.warp_coeffs_to_template(\
 ```
 ![templaematch](./images/input2templ_exact.png)
 
-4. Measure resolution 
+4. Measure resolution
 ```python
 horiz_res, vert_res = usaf_measure.measure_resolution(
                             input_b, warp_matrix, template,
                              min_measure_group = 4,
                              max_measure_group = 5, plot=True)
 
-um2px = 1 / ar([np.mean(horiz_res), np.mean(vert_res)])
+px2um = 1 / ar([np.mean(horiz_res), np.mean(vert_res)])
 
-print ('horiz res = %.6f +/- %.6f [um/px]' % (1/np.mean(horiz_res), np.std(1/ar(horiz_res))))
-print ('vert  res = %.6f +/- %.6f [um/px]' % (1/np.mean(vert_res),  np.std(1/ar(horiz_res))))
-print ("size = %.3f x %.3f [um]" % tuple(ar(input.shape) * um2px))
+print ('horiz res = %.6f +/- %.6f [px/um]' % (1/np.mean(horiz_res), np.std(1/ar(horiz_res))))
+print ('vert  res = %.6f +/- %.6f [px/um]' % (1/np.mean(vert_res),  np.std(1/ar(horiz_res))))
+print ("size = %.3f x %.3f [um]" % tuple(ar(input.shape) * px2um))
 
-
-focal_size = 30
-a = (((ar(input.shape) * um2px))/100)
-deg_size = np.rad2deg(np.arctan( (a/2) / focal_size))
-
-print ("size = %.3f x %.3f [deg]" % tuple(deg_size))
+focal_size = 20
+px2deg = np.rad2deg( 2 * np.arctan( px2um/100/2/focal_size) )
+print ("size = %.3f x %.3f [deg]" % tuple(ar(input.shape) * px2deg))
 ```
 output:
 ```
-horiz res = 1.391909 +/- 0.005941 [um/px]
-vert  res = 1.567937 +/- 0.005941 [um/px]
-size = 1113.527 x 1254.349 [um]
-size = 10.514 x 11.808 [deg]
+horiz res = 1.390488 +/- 0.005709 [px/um]
+vert  res = 1.555811 +/- 0.005709 [px/um]
+size = 1112.391 x 1244.649 [um]
+size = 31.868 x 35.657 [deg]
 ```
 
 ![measure](./images/measure.png)

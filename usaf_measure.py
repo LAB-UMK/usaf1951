@@ -55,8 +55,8 @@ def find_initial_transform_by_rectangles(I, T, plot=True):
     return np.linalg.inv(tr._inv_matrix)[:2]
 
 def probe_initial_warp_matrix(I, T, sx=1.0, sy=1.0, tx=0.0, ty=0.0, threshold = 0.6):
-    Ib = I > threshold
-    Tb = T.sum(axis=2) > 0
+    Ib = I 
+    Tb = (T != [255,255,255]).all(axis=2)
 
     warp_matrix = np.array([
             [sx, 0,  tx],
